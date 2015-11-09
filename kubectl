@@ -1,0 +1,4 @@
+#!/bin/sh -e
+exec docker run --rm --net=host \
+    -v /root/kubectl:/usr/local/bin/kubectl:ro \
+    busybox:ubuntu-14.04 kubectl $*
