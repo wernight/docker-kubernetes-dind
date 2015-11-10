@@ -58,3 +58,11 @@ Solutions include:
 
 So to avoid pushing 3 images each time and still not making full use of the cache, having a
 Docker Registry Mirror seems the simplest and most effective alternative.
+
+
+Can I make it run faster?
+-------------------------
+
+The main slowness is likely coming from the file system as it cannot use an efficient file system for Docker when it's inside another Docker.
+
+Outside of possible improvements to this image, the other solution is of course to run Kubernetes and Docker Registry locally and deploy in a test namespace on it.
