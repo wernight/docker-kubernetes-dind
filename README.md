@@ -9,7 +9,7 @@ Example of use case:
  1. Start Docker Registry Mirror (and keep it running even after your build is complete):
 
         $ docker run -d --name registry_mirror --restart=always \
-              -p 127.0.0.1::5000 \
+              -p 5000 \
               -e STANDALONE=false \
               -e MIRROR_SOURCE=https://registry-1.docker.io \
               -e MIRROR_SOURCE_INDEX=https://index.docker.io \
