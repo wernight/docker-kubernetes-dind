@@ -1,7 +1,7 @@
 #!/bin/sh -e
 
 # Start Docker daemon
-dockerd-entrypoint.sh --registry-mirror=http://registry_mirror:5000 &
+dockerd-entrypoint.sh --log-level=warning --registry-mirror=http://registry_mirror:5000 &
 sleep 3
 
 # Start Kubernetes

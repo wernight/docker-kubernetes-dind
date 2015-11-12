@@ -6,7 +6,7 @@ You do need to use a Docker Registry Mirror locally (and keep it running) so tha
 
 Example of use case:
 
- 1. Start Docker Registry Mirror (and keep it running even after your build is complete):
+ 1. Start a local Docker Registry Mirror (and keep it running even after your build is complete):
 
         $ docker run -d --name registry_mirror --restart=always \
               -p 5000 \
@@ -24,20 +24,23 @@ Example of use case:
               -v $PWD/my-kubernetes-yaml:/code:ro \
               wernight/kubernetes-dind
 
- 3. Push your images to the Docker Registry within the container (because Kubernetes need that):
+ 3. May need to wait couple of minutes until the everything is up. You can retry pushing (next step)
+    until it succeeds as the local Docker Registry is the last thing started.
+
+ 4. Push your images to the Docker Registry within the container (because Kubernetes need that):
  
         $ docker build -t my-image .
         $ docker tag -f my-image $(docker port kubernetes_dind_1 5000)/my-image
         $ docker push $(docker port kubernetes_dind_1 5000)/my-image
         $ docker rmi $(docker port kubernetes_dind_1 5000)/my-image
  
- 4. Deploy on the Kubernetes running within the container (in this example it should start the image `localhost:5000/my-image`):
+ 5. Deploy on the Kubernetes running within the container (in this example it should start the image `localhost:5000/my-image`):
 
         $ docker exec kubernetes_dind_1 kubectl create -f /code/my-rc.yaml
 
- 5. Run whatever system tests you want to check it works (use `--port` and make use of Kubernetes `externalIPs` to access your deployed website). You can also run them within the running containers (via `docker exec`).
+ 6. Run whatever system tests you want to check it works (use `--port` and make use of Kubernetes `externalIPs` to access your deployed website). You can also run them within the running containers (via `docker exec`).
 
- 6. Clean-up by deleting the container:
+ 7. Clean-up by deleting the container:
 
         $ docker rm -f kubernetes_dind_1
 
